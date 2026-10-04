@@ -1315,32 +1315,14 @@ section[id] {
 .detail-image .image-caption {
   color: var(--ink);
 }
-.detail-hero-grid-offer {
-  display: block;
-}
-.detail-hero-grid-offer > div:first-child {
-  max-width: 760px;
-}
-.strategy-offer {
-  margin: 58px 0 0;
-}
-.strategy-offer > img {
-  display: block;
-  width: 100%;
+.detail-image.strategy-offer-card {
   height: auto;
+  aspect-ratio: 1672 / 941;
   border-radius: 4px;
 }
-.strategy-offer figcaption {
-  display: flex;
-  justify-content: space-between;
-  gap: 20px;
-  margin-top: 14px;
-  color: #ceddc5;
-  font-size: 12px;
-}
-.strategy-offer figcaption a {
-  color: var(--paper);
-  text-underline-offset: 3px;
+.detail-image.strategy-offer-card > img {
+  object-fit: contain;
+  object-position: center;
 }
 .programme-detail {
   display: grid;
@@ -1862,12 +1844,6 @@ section[id] {
   }
   .detail-image {
     height: 400px;
-  }
-  .strategy-offer {
-    margin-top: 35px;
-  }
-  .strategy-offer figcaption {
-    flex-wrap: wrap;
   }
   .programme-detail {
     grid-template-columns: 1fr;

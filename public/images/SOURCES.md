@@ -27,4 +27,4 @@ These are illustrative, not Green Arc events or identified students. Replace wit
 
 `commune-group.jpeg` is the owner-supplied WhatsApp Image 2026-10-04 at 00.38.26.jpeg, copied unchanged. Used in the full-width community photographic chapter in place of stock photography. Identity of pictured people is not asserted. The footer logo presentation is recolored in CSS for contrast.
 
-`strategy-master-offer.png` is the owner-supplied `learning.png` (1672×941), copied unchanged. It replaces the stock image on `/programmes/strategy-master`. The artwork itself contains programme claims, an offer price, and an Enroll Now visual; the website treats it as an image, while the functional enquiry link remains the WhatsApp support button.
+`strategy-master-offer.png` is the owner-supplied `learning.png` (1672×941), copied unchanged. It replaces the stock image inside the existing card on `/programmes/strategy-master`. The artwork itself contains programme claims, an offer price, and an Enroll Now visual; the functional enquiry link remains the WhatsApp support button.
