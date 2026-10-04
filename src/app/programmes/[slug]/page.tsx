@@ -45,7 +45,7 @@ export default async function ProgrammePage({
         <Link className="text-link" href="/#programmes">
           <ArrowLeft size={17} /> All programmes
         </Link>
-        <div className="detail-hero-grid">
+        <div className="detail-hero-grid detail-hero-grid-offer">
           <div>
             <h1>
               Learn strategy
@@ -63,16 +63,26 @@ export default async function ProgrammePage({
               <ArrowUpRight size={18} />
             </a>
           </div>
-          <div className="detail-image">
+          <figure className="strategy-offer">
             <Image
-              src={p.image}
-              alt="Illustrative learning environment"
-              fill
-              sizes="(max-width: 750px) 100vw, 45vw"
+              src={p.detailImage}
+              alt="Strategy Master offer: live XAUUSD strategy sessions and Q&A with Shubham Soni"
+              width={1672}
+              height={941}
+              sizes="(max-width: 750px) calc(100vw - 48px), 90vw"
               loading="eager"
             />
-            <span className="image-caption">Illustrative photography</span>
-          </div>
+            <figcaption>
+              <span>Strategy Master programme offer</span>
+              <a
+                href={p.detailImage}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                View full-size image ↗
+              </a>
+            </figcaption>
+          </figure>
         </div>
       </section>
       <section className="section programme-detail">

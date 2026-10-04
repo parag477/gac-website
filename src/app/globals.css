@@ -1315,6 +1315,33 @@ section[id] {
 .detail-image .image-caption {
   color: var(--ink);
 }
+.detail-hero-grid-offer {
+  display: block;
+}
+.detail-hero-grid-offer > div:first-child {
+  max-width: 760px;
+}
+.strategy-offer {
+  margin: 58px 0 0;
+}
+.strategy-offer > img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+}
+.strategy-offer figcaption {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  margin-top: 14px;
+  color: #ceddc5;
+  font-size: 12px;
+}
+.strategy-offer figcaption a {
+  color: var(--paper);
+  text-underline-offset: 3px;
+}
 .programme-detail {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -1835,6 +1862,12 @@ section[id] {
   }
   .detail-image {
     height: 400px;
+  }
+  .strategy-offer {
+    margin-top: 35px;
+  }
+  .strategy-offer figcaption {
+    flex-wrap: wrap;
   }
   .programme-detail {
     grid-template-columns: 1fr;

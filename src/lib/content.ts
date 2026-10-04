@@ -58,6 +58,7 @@ export const programmes = [
       "Go beyond spotting a setup. Learn how to connect market context, a clear trading idea and a considered risk plan, with a focus on gold.",
     fit: "For traders ready to understand the reasoning behind a strategy.",
     image: "/images/learning.jpg",
+    detailImage: "/images/strategy-master-offer.png",
     features: [
       "Read market structure and context",
       "Understand the logic behind a setup",
