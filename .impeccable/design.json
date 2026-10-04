@@ -1,0 +1,14 @@
+{
+  "mode": "persuade",
+  "direction": "A place to grow",
+  "tokens": {
+    "paper": "#f5f3ea",
+    "forest": "#173c30",
+    "deep": "#102b23",
+    "lime": "#d7ef8f",
+    "ink": "#193d31"
+  },
+  "hero": "comp1 layered parallax",
+  "fonts": ["DM Sans Variable", "Cormorant Garamond"],
+  "motion": { "nativeScroll": true, "reducedMotion": true }
+}
