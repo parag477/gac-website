@@ -70,7 +70,7 @@ Tests cover enquiry validation, persistence, duplicate retry handling and submis
 
 ## Admin access
 
-Open `/admin` to create the first account using your own email and a password of at least 12 characters. Locally, the private setup code is in `data/admin-setup.txt` and its matching `ADMIN_SETUP_KEY` is configured in `.env.local`. In Vercel, set a private `ADMIN_SETUP_KEY` environment variable and use that value for initial signup. Neither local file is public or committed. After the first account is created, signup closes and `/admin` shows login instead.
+Open `/admin` to create the first account using your own email and a password of at least 12 characters. Locally, the private setup code is in `data/admin-setup.txt` and its matching `ADMIN_SETUP_KEY` is configured in `.env.local`. For the live site, go to **Vercel project → Settings → Environment Variables**, add `ADMIN_SETUP_KEY` for **Production**, and put only the secret value in its Value field (not `ADMIN_SETUP_KEY=`). You may use the same code as the local file or generate a new random code. Redeploy after saving it; Vercel does not apply environment changes to an existing deployment. Then enter that exact value in `/admin`. Neither local file is public or committed. After the first account is created, signup closes and `/admin` shows login instead.
 
 The dashboard shows all saved enquiries, newest first, with name, email, programme, full message and receipt time (IST). Search by name, email or programme; browse 30 records per page. Refresh to see new submissions. Logout revokes the session.
 

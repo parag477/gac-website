@@ -5,6 +5,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { DatabaseSync } from "node:sqlite";
 import {
+  AuthError,
   hasAdmin,
   registerAdmin,
   loginAdmin,
@@ -27,7 +28,17 @@ test("protected first-account signup, password hashing and session lifecycle", a
     await assert.rejects(
       registerAdmin({ ...data, setupKey: "wrong" }, "test-key", path),
     );
-    await assert.rejects(registerAdmin(data, undefined, path));
+    await assert.rejects(registerAdmin(data, undefined, path), (error) => {
+      assert.ok(error instanceof AuthError);
+      assert.equal(error.status, 503);
+      assert.match(error.message, /ADMIN_SETUP_KEY/);
+      return true;
+    });
+    await assert.rejects(registerAdmin(data, "other-key", path), (error) => {
+      assert.ok(error instanceof AuthError);
+      assert.equal(error.status, 403);
+      return true;
+    });
     const id = await registerAdmin(data, "test-key", path);
     assert.equal(await hasAdmin(path), true);
     await assert.rejects(

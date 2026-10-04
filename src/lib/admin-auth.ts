@@ -71,15 +71,22 @@ export async function registerAdmin(
   expectedKey: string | undefined,
   path?: string,
 ) {
+  if (!expectedKey?.trim())
+    throw new AuthError(
+      "Admin setup is not configured for this deployment. Add ADMIN_SETUP_KEY in Vercel and redeploy.",
+      503,
+    );
   if (
-    !expectedKey ||
     typeof input.setupKey !== "string" ||
     !timingSafeEqual(
-      Buffer.from(hash(input.setupKey)),
-      Buffer.from(hash(expectedKey)),
+      Buffer.from(hash(input.setupKey.trim())),
+      Buffer.from(hash(expectedKey.trim())),
     )
   )
-    throw new AuthError("The setup code is not valid.", 403);
+    throw new AuthError(
+      "The setup code does not match this deployment. Check the ADMIN_SETUP_KEY value in Vercel.",
+      403,
+    );
   const { email, password } = credentials(input.email, input.password);
   const salt = randomBytes(16).toString("hex");
   const passwordHash = scryptSync(password, salt, 64).toString("hex");

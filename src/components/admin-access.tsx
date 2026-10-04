@@ -69,8 +69,9 @@ export function AdminAccess({ setup }: { setup: boolean }) {
               />
             </label>
             <p className="admin-hint">
-              Use the setup code saved in your project’s private admin setup
-              file. Signup closes after the first account is created.
+              On the live site, enter the value of ADMIN_SETUP_KEY saved for
+              Production in Vercel. Your local setup file works only if you set
+              the same value there. Signup closes after the first account.
             </p>
           </>
         )}
