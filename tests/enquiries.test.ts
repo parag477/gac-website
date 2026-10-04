@@ -31,15 +31,15 @@ test("rejects invalid input and unavailable programmes", () => {
     "test@example.com",
   );
 });
-test("persists enquiry, handles safe retries and limits repeated submissions", () => {
+test("persists enquiry, handles safe retries and limits repeated submissions", async () => {
   const dir = mkdtempSync(join(tmpdir(), "gac-enquiries-"));
   const path = join(dir, "records.sqlite");
   try {
     const data = validateEnquiry(sample(), allowed);
-    const first = saveEnquiry(data, path);
-    assert.equal(saveEnquiry(data, path).id, first.id);
-    assert.throws(
-      () => saveEnquiry({ ...data, message: "Changed payload" }, path),
+    const first = await saveEnquiry(data, path);
+    assert.equal((await saveEnquiry(data, path)).id, first.id);
+    await assert.rejects(
+      saveEnquiry({ ...data, message: "Changed payload" }, path),
       /refresh/,
     );
     const db = new DatabaseSync(path);
@@ -53,9 +53,9 @@ test("persists enquiry, handles safe retries and limits repeated submissions", (
     );
     db.close();
     for (let i = 0; i < 4; i++)
-      saveEnquiry({ ...data, requestId: randomUUID() }, path);
-    assert.throws(
-      () => saveEnquiry({ ...data, requestId: randomUUID() }, path),
+      await saveEnquiry({ ...data, requestId: randomUUID() }, path);
+    await assert.rejects(
+      saveEnquiry({ ...data, requestId: randomUUID() }, path),
       /hour/,
     );
   } finally {

@@ -31,14 +31,14 @@ export async function POST(
   const jar = await cookies();
   try {
     if (action === "logout") {
-      revokeSession(jar.get("gac_admin")?.value);
+      await revokeSession(jar.get("gac_admin")?.value);
       jar.delete("gac_admin");
       return Response.json({ success: true });
     }
     if (!request.headers.get("content-type")?.includes("application/json"))
       throw new AuthError("Invalid request.", 415);
     // Global throttle is deliberately independent of untrusted forwarded-IP headers.
-    limitAuth("all-auth", undefined, 200);
+    await limitAuth("all-auth", undefined, 200);
     const reader = request.body?.getReader();
     if (!reader) throw new AuthError("Invalid request.");
     const chunks: Uint8Array[] = [];
@@ -66,12 +66,12 @@ export async function POST(
     if (!data || typeof data !== "object")
       throw new AuthError("Invalid request.");
     if (typeof data.email === "string")
-      limitAuth(`${action}:${data.email.trim().toLowerCase()}`);
+      await limitAuth(`${action}:${data.email.trim().toLowerCase()}`);
     const id =
       action === "signup"
-        ? registerAdmin(data, process.env.ADMIN_SETUP_KEY)
-        : loginAdmin(data.email, data.password);
-    const token = createSession(id);
+        ? await registerAdmin(data, process.env.ADMIN_SETUP_KEY)
+        : await loginAdmin(data.email, data.password);
+    const token = await createSession(id);
     jar.set("gac_admin", token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",

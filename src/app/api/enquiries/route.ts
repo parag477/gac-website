@@ -50,7 +50,7 @@ export async function POST(request: Request) {
       "Help me choose",
       ...programmes.filter((p) => p.kind !== "coming-soon").map((p) => p.title),
     ]);
-    const result = saveEnquiry(enquiry);
+    const result = await saveEnquiry(enquiry);
     return Response.json(
       { success: true, id: result.id },
       { status: 201, headers: { "Cache-Control": "no-store" } },

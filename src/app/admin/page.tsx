@@ -15,7 +15,7 @@ export default async function Admin({
 }: {
   searchParams: Promise<{ q?: string; page?: string }>;
 }) {
-  const admin = getSession((await cookies()).get("gac_admin")?.value);
+  const admin = await getSession((await cookies()).get("gac_admin")?.value);
   if (!admin)
     return (
       <main id="main" className="admin-page">
@@ -23,7 +23,7 @@ export default async function Admin({
           <Brand />
           <Link href="/">Back to website</Link>
         </div>
-        <AdminAccess setup={!hasAdmin()} />
+        <AdminAccess setup={!(await hasAdmin())} />
       </main>
     );
   const query = await searchParams;
@@ -32,7 +32,7 @@ export default async function Admin({
     1,
     Math.min(100000, parseInt(query.page || "1", 10) || 1),
   );
-  const { rows, total, page } = listEnquiries(q, requestedPage);
+  const { rows, total, page } = await listEnquiries(q, requestedPage);
   const pages = Math.max(1, Math.ceil(total / 30));
   return (
     <main id="main" className="admin-page">
