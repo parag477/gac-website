@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useState } from "react";
 import { ArrowUpRight } from "lucide-react";
 import { programmes } from "@/lib/content";
+import { trackEvent } from "@/lib/analytics";
 export function ProgrammePreview() {
   const [active, setActive] = useState(0);
   function choose(slug: string) {
@@ -44,6 +45,7 @@ export function ProgrammePreview() {
                   : `/?programme=${p.slug}#contact`
               }
               onClick={(event) => {
+                trackEvent("programme_select", p.slug);
                 if (
                   p.kind === "enquiry" &&
                   !event.metaKey &&

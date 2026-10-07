@@ -1,13 +1,8 @@
 import type { MetadataRoute } from "next";
-import { programmes, site } from "@/lib/content";
+import { site } from "@/lib/content";
+import { publicPages } from "@/lib/public-pages";
 export default function sitemap(): MetadataRoute.Sitemap {
-  return [
-    { url: site.url, priority: 1 },
-    ...programmes
-      .filter((p) => p.kind === "page")
-      .map((p) => ({
-        url: `${site.url}/programmes/${p.slug}`,
-        priority: 0.8,
-      })),
-  ];
+  return publicPages.map((page) => ({
+    url: new URL(page.path, site.url).href,
+  }));
 }

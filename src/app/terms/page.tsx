@@ -25,11 +25,11 @@ export default function Terms() {
       <p>
         Before enrolling, ask for the current programme fees, schedule,
         inclusions, access period, support, cancellation and refund terms. This
-        preview does not accept payments or complete enrollment.
+        website does not accept payments or complete enrollment.
       </p>
       <p>
-        Team photographs come from the existing project. Community photographs
-        are illustrative placeholders, not evidence of particular events. The
+        Team photographs come from the existing project. Some photographs
+        are illustrative; owner-supplied community images are also used. The
         testimonial video is a member recording supplied by the owner.
       </p>
       <p>

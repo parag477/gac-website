@@ -89,7 +89,11 @@ export function Header() {
     </header>
   );
 }
-export function Footer() {
+export function Footer({
+  analyticsEnabled = false,
+}: {
+  analyticsEnabled?: boolean;
+}) {
   const pathname = usePathname();
   if (pathname.startsWith("/admin")) return null;
   return (
@@ -114,6 +118,14 @@ export function Footer() {
           </a>
         </div>
       </div>
+      <nav className="footer-resources" aria-label="Explore Green Arc Commune">
+        <Link href="/programmes">Compare programmes</Link>
+        <Link href="/about/shubham-soni">About Shubham Soni</Link>
+        <Link href="/stories/member-story">Member video</Link>
+        <a href={site.youtube} target="_blank" rel="noopener noreferrer">
+          YouTube <ArrowUpRight size={16} />
+        </a>
+      </nav>
       <div className="footer-wordmark" aria-hidden="true">
         grow together
         <ArrowUpRight aria-hidden="true" className="footer-arrow" />
@@ -123,6 +135,17 @@ export function Footer() {
         <div>
           <Link href="/privacy">Privacy</Link>
           <Link href="/terms">Terms & disclosures</Link>
+          {analyticsEnabled && (
+            <button
+              className="analytics-settings"
+              type="button"
+              onClick={() =>
+                window.dispatchEvent(new Event("analytics-preferences"))
+              }
+            >
+              Analytics preferences
+            </button>
+          )}
           <a href="#main">
             Back to top <ArrowRight className="up-arrow" size={14} />
           </a>
@@ -130,8 +153,7 @@ export function Footer() {
       </div>
       <p className="risk-note">
         Trading involves risk. Our content is educational; individual
-        experiences do not guarantee future results. Community stock photography
-        are temporary preview assets.
+        experiences do not guarantee future results. Some photographs are illustrative; member experiences are individual.
       </p>
     </footer>
   );

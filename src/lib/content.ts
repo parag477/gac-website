@@ -1,13 +1,52 @@
+import { canonicalOrigin } from "./site-config";
+
 export const site = {
   name: "Green Arc Commune",
-  url: process.env.NEXT_PUBLIC_SITE_URL || "https://greenarccommune.com",
-  email: "support@greenarc.com",
+  url: canonicalOrigin(process.env.NEXT_PUBLIC_SITE_URL),
+  email: "support@greenarccommune.com",
+  supportWhatsapp: "https://wa.me/919753574157",
   instagram: "https://www.instagram.com/greenarccommune/",
   whatsapp: "https://whatsapp.com/channel/0029VbB9LqrC1Fu7mqRvcK0b",
   youtube:
     process.env.NEXT_PUBLIC_YOUTUBE_URL ||
     "https://youtube.com/@greenarccommune",
   telegram: "https://t.me/greenarccapitals",
+};
+
+export const founder = {
+  name: "Shubham Soni",
+  role: "Founder, Trader and Educator",
+  description:
+    "Shubham Soni is the founder of Green Arc Commune, with 7+ years of trading experience and expertise in gold trading. His work brings trading education and mentorship into a shared learning environment.",
+  approach:
+    "The focus is on the decisions behind a trade: the preparation, the patience and the ability to step back and review.",
+};
+
+export const learningMethod = [
+  {
+    title: "Understand",
+    text: "Learn to read market context, question an idea and understand the reasoning behind a decision.",
+  },
+  {
+    title: "Practise",
+    text: "Connect what you learn with live-market observation, structured frameworks and thoughtful preparation.",
+  },
+  {
+    title: "Reflect",
+    text: "Review your decisions, notice your habits and keep refining your process with guidance and perspective.",
+  },
+] as const;
+
+export const programmeEnrolmentNote =
+  "Ask the team for current fees, availability, duration, recording access and cancellation or refund terms before enrolling. Learning supports your process; trading outcomes are never guaranteed.";
+
+export const teachingLanguage = "Hindi";
+export const strategyOffer = {
+  price: 3999,
+  currency: "INR",
+  audience: "Webinar subscribers",
+  description:
+    "The Strategy Master webinar offer is ₹3,999 for webinar subscribers. Contact the support team to confirm eligibility, the current schedule and access details before enrolling.",
 };
 
 export const programmes = [
@@ -170,7 +209,7 @@ export type VideoStory = {
   poster: string;
   src: string | null;
   captions?: string;
-  transcript: string;
+  description: string;
   placeholder: boolean;
 };
 // Original member recording supplied by the owner. No identity or quotation inferred.
@@ -180,13 +219,32 @@ export const videoStories: VideoStory[] = [
     title: "A member’s perspective.",
     poster: "/images/member-testimonial.jpg",
     src: "/videos/member-testimonial.mp4",
-    transcript:
+    description:
       "Hear a member share their experience of Green Arc Commune in their own words.",
     placeholder: false,
   },
 ];
 
 export const faqs = [
+  {
+    question: "Which language are the programmes taught in?",
+    answer:
+      "The programmes are taught in Hindi. This website provides programme information in English. Ask the team about the current timetable and recording access before enrolling.",
+  },
+  {
+    question: "What is the Strategy Master webinar offer?",
+    answer: strategyOffer.description,
+  },
+  {
+    question: "What does Green Arc Commune teach?",
+    answer:
+      "Green Arc Commune offers trading education and mentorship with a focus on gold/XAUUSD. The learning approach brings together market context, strategy reasoning, risk awareness, practice and reviewing your decisions.",
+  },
+  {
+    question: "Who is Shubham Soni?",
+    answer:
+      "Shubham Soni is the founder of Green Arc Commune, a trader and an educator with 7+ years of trading experience and expertise in gold trading. His teaching focuses on preparation, patience and the decisions behind a trade.",
+  },
   {
     question: "Is Green Arc Commune right for a beginner?",
     answer:

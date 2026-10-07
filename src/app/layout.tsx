@@ -4,22 +4,29 @@ import "@fontsource/cormorant-garamond/500-italic.css";
 import "./globals.css";
 import { site } from "@/lib/content";
 import { Header, Footer } from "@/components/site-shell";
+import { homeDescription, homeTitle, siteIndexable } from "@/lib/seo";
+import { Analytics } from "@/components/analytics";
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
   title: {
-    default: "Green Arc Commune — Learn the market. Grow together.",
+    default: `${homeTitle} | ${site.name}`,
     template: "%s | Green Arc Commune",
   },
-  description:
-    "Trading education with Shubham Soni. Explore live learning, cohort mentorship, one-to-one guidance and algorithmic tools at Green Arc Commune.",
-  robots: { index: process.env.SITE_INDEXABLE === "true", follow: true },
+  description: homeDescription,
+  verification: {
+    google: process.env.GOOGLE_SITE_VERIFICATION,
+    ...(process.env.BING_SITE_VERIFICATION
+      ? { other: { "msvalidate.01": process.env.BING_SITE_VERIFICATION } }
+      : {}),
+  },
+  robots: { index: siteIndexable, follow: true },
   openGraph: {
     type: "website",
     locale: "en_IN",
     siteName: site.name,
     title: "Green Arc Commune",
-    description: "Learn the market. Build your process. Grow together.",
+    description: homeDescription,
     images: [{ url: "/opengraph-image", width: 1200, height: 630 }],
   },
   twitter: { card: "summary_large_image" },
@@ -36,7 +43,14 @@ export default function RootLayout({
         </a>
         <Header />
         {children}
-        <Footer />
+        <Footer analyticsEnabled={siteIndexable} />
+        {siteIndexable && (
+          <Analytics
+            measurementId={
+              process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || "G-HNQPN4JFE7"
+            }
+          />
+        )}
       </body>
     </html>
   );

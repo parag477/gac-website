@@ -3,6 +3,7 @@ import { useEffect, useRef, useState, type FormEvent } from "react";
 import Link from "next/link";
 import { ArrowUpRight, Check } from "lucide-react";
 import { programmes } from "@/lib/content";
+import { trackEvent } from "@/lib/analytics";
 export function ContactForm({ programme }: { programme?: string }) {
   const [choice, setChoice] = useState(programme || "Help me choose");
   const [status, setStatus] = useState<
@@ -12,6 +13,10 @@ export function ContactForm({ programme }: { programme?: string }) {
   const requestId = useRef<string | null>(null);
   const submitting = useRef(false);
   const select = useRef<HTMLSelectElement>(null);
+  const started = useRef(false);
+  function analyticsChoice() {
+    return programmes.find((p) => p.title === choice)?.slug || "help-me-choose";
+  }
   useEffect(() => {
     function choose(slug: string) {
       if (submitting.current) return;
@@ -60,6 +65,7 @@ export function ContactForm({ programme }: { programme?: string }) {
           result.error || "We couldn’t save your enquiry. Please try again.",
         );
       setStatus("success");
+      trackEvent("generate_lead", analyticsChoice());
       form.reset();
       setChoice(programme || "Help me choose");
       requestId.current = null;
@@ -78,6 +84,12 @@ export function ContactForm({ programme }: { programme?: string }) {
     <form
       className="contact-form"
       onSubmit={submit}
+      onFocus={() => {
+        if (!started.current) {
+          trackEvent("inquiry_start", analyticsChoice());
+          started.current = true;
+        }
+      }}
       onChange={() => {
         if (!submitting.current) {
           setStatus("idle");
@@ -116,7 +128,14 @@ export function ContactForm({ programme }: { programme?: string }) {
             ref={select}
             name="programme"
             value={choice}
-            onChange={(e) => setChoice(e.target.value)}
+            onChange={(e) => {
+              setChoice(e.target.value);
+              trackEvent(
+                "programme_select",
+                programmes.find((p) => p.title === e.target.value)?.slug ||
+                  "help-me-choose",
+              );
+            }}
           >
             <option>Help me choose</option>
             {programmes

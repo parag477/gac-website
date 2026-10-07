@@ -3,7 +3,22 @@ import { notFound, redirect } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowLeft, ArrowUpRight, Check } from "lucide-react";
-import { programmes } from "@/lib/content";
+import {
+  programmes,
+  site,
+  strategyOffer,
+  teachingLanguage,
+  programmeEnrolmentNote,
+} from "@/lib/content";
+import {
+  pageMetadata,
+  organisationId,
+  organisationGraph,
+  breadcrumbGraph,
+  webPageGraph,
+} from "@/lib/seo";
+import { StructuredData } from "@/components/structured-data";
+import { Breadcrumbs } from "@/components/breadcrumbs";
 
 export function generateStaticParams() {
   return programmes
@@ -17,11 +32,13 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params;
   const p = programmes.find((p) => p.slug === slug);
-  return {
-    title: p?.title || "Programme not found",
-    description: p?.description,
-    alternates: { canonical: `/programmes/${slug}` },
-  };
+  if (!p || p.kind !== "page")
+    return { robots: { index: false, follow: true } };
+  return pageMetadata(
+    "Gold Trading Strategy Master Program",
+    "Explore gold-market context, strategy reasoning and risk planning with Shubham Soni. See programme details and contact the team on WhatsApp.",
+    `/programmes/${slug}`,
+  );
 }
 export default async function ProgrammePage({
   params,
@@ -29,19 +46,62 @@ export default async function ProgrammePage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const legacy: Record<string, string> = {
-    "live-room": "/?programme=live-mentorship#contact",
-    mastery: "/programmes/strategy-master",
-    individual: "/?programme=individual-mentorship#contact",
-  };
-  if (legacy[slug]) redirect(legacy[slug]);
   const p = programmes.find((p) => p.slug === slug);
   if (!p) notFound();
   if (p.kind === "enquiry") redirect(`/?programme=${p.slug}#contact`);
   if (p.kind === "coming-soon") redirect("/#programmes");
   return (
     <main id="main">
+      <StructuredData
+        data={{
+          "@context": "https://schema.org",
+          "@graph": [
+            ...organisationGraph()["@graph"],
+            {
+              ...webPageGraph(`/programmes/${p.slug}`, p.title, p.description),
+              mainEntity: {
+                "@id": `${site.url}/programmes/${p.slug}#curriculum`,
+              },
+            },
+            {
+              "@type": "Course",
+              "@id": `${site.url}/programmes/${p.slug}#curriculum`,
+              name: p.title,
+              description: p.description,
+              url: `${site.url}/programmes/${p.slug}`,
+              provider: {
+                "@type": "EducationalOrganization",
+                "@id": organisationId,
+                name: site.name,
+                url: `${site.url}/`,
+              },
+              teaches: p.features,
+              inLanguage: "hi",
+              offers: {
+                "@type": "Offer",
+                url: `${site.url}/programmes/${p.slug}#offer`,
+                price: strategyOffer.price,
+                priceCurrency: strategyOffer.currency,
+                name: "Strategy Master webinar subscriber offer",
+                description: strategyOffer.description,
+              },
+            },
+            breadcrumbGraph([
+              { name: "Home", path: "/" },
+              { name: "Programmes", path: "/programmes" },
+              { name: p.title, path: `/programmes/${p.slug}` },
+            ]),
+          ],
+        }}
+      />
       <section className="detail-hero section">
+        <Breadcrumbs
+          items={[
+            { name: "Home", path: "/" },
+            { name: "Programmes", path: "/programmes" },
+            { name: p.title, path: `/programmes/${p.slug}` },
+          ]}
+        />
         <Link className="text-link" href="/#programmes">
           <ArrowLeft size={17} /> All programmes
         </Link>
@@ -74,7 +134,7 @@ export default async function ProgrammePage({
           </div>
         </div>
       </section>
-      <section className="section programme-detail">
+      <section className="section programme-detail" id="curriculum">
         <div>
           <h2>
             A little structure.
@@ -83,6 +143,13 @@ export default async function ProgrammePage({
           </h2>
           <p>{p.fit}</p>
           <p>{p.outcome}</p>
+          <p>
+            Teaching language: <strong>{teachingLanguage}</strong>.
+          </p>
+          <div id="offer">
+            <h3>₹3,999 webinar offer</h3>
+            <p>{strategyOffer.description}</p>
+          </div>
         </div>
         <div>
           <h3>What we’ll work on</h3>
@@ -94,11 +161,10 @@ export default async function ProgrammePage({
               </li>
             ))}
           </ul>
-          <p className="detail-note">
-            Ask us for current fees, availability, duration and access details
-            before enrolling. Learning supports your process; trading outcomes
-            are never guaranteed.
-          </p>
+          <p className="detail-note">{programmeEnrolmentNote}</p>
+          <Link className="text-link" href="/about/shubham-soni">
+            About Shubham Soni <ArrowUpRight size={17} />
+          </Link>
         </div>
       </section>
     </main>

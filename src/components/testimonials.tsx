@@ -1,6 +1,7 @@
 "use client";
 import { useRef, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { ArrowLeft, ArrowRight, Play, X, Quote, Film } from "lucide-react";
 import { reviews, videoStories, type VideoStory } from "@/lib/content";
 
@@ -89,8 +90,12 @@ export function Testimonials() {
             ))}
       </div>
       <p className="asset-note">
-        Written stories and the video are shared by members of our community.
+        Written stories and the video are shared by members of our community.{" "}
+        Written stories may refer to earlier programme names and team members.
       </p>
+      <Link className="text-link" href="/stories/member-story">
+        Watch the member video on its own page <ArrowRight size={17} />
+      </Link>
       <dialog
         ref={dialog}
         className="story-dialog"
@@ -159,7 +164,7 @@ export function Testimonials() {
                 {selected.placeholder ? "VIDEO PREVIEW" : "MEMBER STORY"}
               </span>
               <h2 id="story-dialog-title">{selected.title}</h2>
-              <p>{selected.transcript}</p>
+              <p>{selected.description}</p>
               {selected.placeholder && (
                 <p className="asset-note">
                   This is a layout preview, not a recorded testimonial. The

@@ -55,7 +55,9 @@ See `public/images/SOURCES.md` for assets. Community stock photos remain placeho
 
 ## Launch foundations
 
-Server-rendered content, canonical URLs, organisation JSON-LD, social image, sitemap and crawl controls are included. Preview is noindex until `SITE_INDEXABLE=true`. Configure `NEXT_PUBLIC_SITE_URL` for deployment. Complete approved policies, programme specifics, photo replacements and later SEO/GEO/AEO work before publication.
+Server-rendered content, canonical URLs, organisation/founder/course JSON-LD, social metadata, sitemap and crawl controls are included. Vercel Production defaults to indexable unless `SITE_INDEXABLE=false` explicitly pauses it. Vercel Preview and local development always remain noindex, even with a copied production flag. Set `NEXT_PUBLIC_SITE_URL=https://www.greenarccommune.com` to match the live redirect.
+
+The owner-supplied GA4 property is `G-HNQPN4JFE7` (optional override: `NEXT_PUBLIC_GA_MEASUREMENT_ID`). Analytics loads only on indexable deployments and after consent. Disable GA4 Enhanced Measurement before using the manually instrumented events. See [SEO release guide](docs/seo-release.md) for required Vercel/GA4 settings, verification and pending content work.
 
 ## Checks
 
@@ -64,6 +66,8 @@ npm run lint
 npm run typecheck
 npm test
 npm run build
+# With the production preview running on 3101:
+node scripts/check-seo.mjs http://127.0.0.1:3101
 ```
 
 Tests cover enquiry validation, persistence, duplicate retry handling and submission limits. Browser checks and limitations are in `docs/verification.md`.

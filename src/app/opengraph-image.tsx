@@ -1,5 +1,5 @@
 import { ImageResponse } from "next/og";
-export const alt = "Green Arc Commune — Learn the market. Grow together.";
+export const alt = "Green Arc Commune - Learn the market. Grow together.";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 export default function Image() {
@@ -26,11 +26,11 @@ export default function Image() {
           lineHeight: 1.05,
         }}
       >
-        <span>Learn the market.</span>
-        <span style={{ color: "#d7ef8f" }}>Grow together.</span>
+        <span>Find your gold</span>
+        <span style={{ color: "#d7ef8f" }}>perspective.</span>
       </div>
       <div style={{ display: "flex", fontSize: 24 }}>
-        Trading education with Shubham Soni
+        Gold / XAUUSD education with Shubham Soni
       </div>
     </div>,
     size,

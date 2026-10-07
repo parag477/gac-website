@@ -13,34 +13,19 @@ import { ElasticGallery } from "@/components/ui/elastic-gallery";
 import { ProgrammePreview } from "@/components/ui/hover-preview";
 import { Testimonials } from "@/components/testimonials";
 import { ContactForm } from "@/components/contact-form";
-import { faqs, site, team } from "@/lib/content";
-export const metadata = { alternates: { canonical: "/" } };
+import { faqs, founder, site, team } from "@/lib/content";
+import {
+  homeTitle,
+  homeDescription,
+  pageMetadata,
+  organisationGraph,
+} from "@/lib/seo";
+import { StructuredData } from "@/components/structured-data";
+export const metadata = pageMetadata(homeTitle, homeDescription, "/");
 export default function Home() {
-  const schema = {
-    "@context": "https://schema.org",
-    "@type": "EducationalOrganization",
-    name: site.name,
-    url: site.url,
-    description: "Trading education, mentorship and community.",
-    founder: {
-      "@type": "Person",
-      name: "Shubham Soni",
-      jobTitle: "Founder, Trader and Educator",
-    },
-    sameAs: [
-      site.instagram,
-      site.whatsapp,
-      ...(site.youtube ? [site.youtube] : []),
-    ],
-  };
   return (
     <main id="main">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(schema).replace(/</g, "\u003c"),
-        }}
-      />
+      <StructuredData data={organisationGraph()} />
       <ParallaxHero />
       <div className="belief-strip">
         <span>Wealth in knowledge.</span>
@@ -69,9 +54,9 @@ export default function Home() {
               learning how to put them together.
             </p>
             <p>
-              Green Arc Commune brings market education, thoughtful practice and
-              real conversations into one place. So you can build a process that
-              makes sense to you.
+              Green Arc Commune brings gold/XAUUSD education, thoughtful
+              practice and real conversations into one place. So you can build a
+              process that makes sense to you.
             </p>
             <a className="text-link" href="#method">
               A different way to learn <ArrowDown size={17} />
@@ -102,15 +87,8 @@ export default function Home() {
             <br />
             <em>One of you.</em>
           </h2>
-          <p>
-            Shubham Soni is the founder of Green Arc Commune, with 7+ years of
-            trading experience and expertise in gold trading. His work brings
-            trading education and mentorship into a shared learning environment.
-          </p>
-          <p>
-            The focus is on the decisions behind a trade: the preparation, the
-            patience and the ability to step back and review.
-          </p>
+          <p>{founder.description}</p>
+          <p>{founder.approach}</p>
           <div className="founder-signature">
             Shubham Soni<span>FOUNDER, GREEN ARC COMMUNE</span>
           </div>
@@ -144,6 +122,9 @@ export default function Home() {
           <p>Not sure where to begin? That’s a good place to start.</p>
           <Link className="text-link" href="#contact">
             Let’s find your fit <ArrowUpRight size={18} />
+          </Link>
+          <Link className="text-link" href="/programmes">
+            Compare the learning formats <ArrowUpRight size={18} />
           </Link>
         </div>
       </section>
@@ -275,7 +256,7 @@ export default function Home() {
           ))}
         </div>
       </section>
-      <section className="section faq-section">
+      <section className="section faq-section" id="faq">
         <div>
           <h2>
             A little clarity
