@@ -8,6 +8,8 @@ import {
   organisationGraph,
   pageMetadata,
   webPageGraph,
+  sitePublishedDate,
+  siteModifiedDate,
 } from "@/lib/seo";
 import { StructuredData } from "@/components/structured-data";
 import { Breadcrumbs } from "@/components/breadcrumbs";
@@ -37,6 +39,10 @@ export default function FounderPage() {
                 "/about/shubham-soni",
                 "Shubham Soni",
                 description,
+                {
+                  datePublished: sitePublishedDate,
+                  dateModified: siteModifiedDate,
+                },
               ),
               "@type": "ProfilePage",
               mainEntity: { "@id": founderId },

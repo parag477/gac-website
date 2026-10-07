@@ -6,6 +6,8 @@ import {
   organisationGraph,
   pageMetadata,
   webPageGraph,
+  sitePublishedDate,
+  siteModifiedDate,
 } from "@/lib/seo";
 import { StructuredData } from "@/components/structured-data";
 import { Breadcrumbs } from "@/components/breadcrumbs";
@@ -27,7 +29,10 @@ export default function ProgrammesPage() {
           ...organisationGraph(),
           "@graph": [
             ...organisationGraph()["@graph"],
-            webPageGraph("/programmes", title, description),
+            webPageGraph("/programmes", title, description, {
+              datePublished: sitePublishedDate,
+              dateModified: siteModifiedDate,
+            }),
             breadcrumbGraph(crumbs),
           ],
         }}

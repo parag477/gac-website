@@ -19,7 +19,24 @@ export function llmsIndex(): string {
 
 > Gold/XAUUSD trading education, mentorship and community with Shubham Soni.
 
+## Quick facts
+
+- **Founded:** 2019
+- **Founder:** Shubham Soni (7+ years trading experience)
+- **Focus:** Gold/XAUUSD trading education
+- **Teaching language:** Hindi
+- **Website language:** English
+- **Location focus:** India
+- **Contact email:** ${site.email}
+- **Programmes:** Live Mentorship, Individual Mentorship, Strategy Master (₹3,999 webinar offer), Algo Core (coming soon)
+
 The website serves learners with English-language information about programmes taught in Hindi. Three programmes accept inquiries. Algo Core is in development and is not available for enrollment. Education and member experiences do not guarantee trading results. The illustrated hero chart is decorative, not live market data.
+
+## Programme comparison
+
+| Programme | Format | Best for | Status |
+|-----------|--------|----------|--------|
+${programmes.map((p) => `| ${p.title} | ${p.format} | ${p.fit} | ${p.kind === "coming-soon" ? "Coming soon" : "Available"} |`).join("\n")}
 
 ## Website
 
@@ -34,7 +51,7 @@ ${publicPages.map((p) => `- [${p.title}](${absolute(p.path)}): ${p.description}`
 - [Programme inquiries](${absolute("/#contact")}): Contact form for live and individual mentorship.
 - [Support WhatsApp](${site.supportWhatsapp}): Speak to the team about Strategy Master.
 - [Email support](mailto:${site.email}): ${site.email}
-- [YouTube](${site.youtube}): Green Arc Commune’s official channel.
+- [YouTube](${site.youtube}): Green Arc Commune's official channel.
 - [Instagram](${site.instagram}): Official profile.
 - [WhatsApp community](${site.whatsapp}): Official community channel, separate from support.
 

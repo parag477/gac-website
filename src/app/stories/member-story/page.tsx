@@ -4,7 +4,10 @@ import {
   breadcrumbGraph,
   organisationGraph,
   pageMetadata,
+  videoObjectGraph,
   webPageGraph,
+  sitePublishedDate,
+  siteModifiedDate,
 } from "@/lib/seo";
 import { StructuredData } from "@/components/structured-data";
 import { Breadcrumbs } from "@/components/breadcrumbs";
@@ -17,7 +20,7 @@ const crumbs = [
   { name: "Member story", path: "/stories/member-story" },
 ];
 export const metadata = pageMetadata(
-  "A Member’s Perspective — Video Testimonial",
+  "A Member's Perspective — Video Testimonial",
   description,
   "/stories/member-story",
 );
@@ -30,8 +33,18 @@ export default function MemberStoryPage() {
           ...organisationGraph(),
           "@graph": [
             ...organisationGraph()["@graph"],
-            webPageGraph("/stories/member-story", story.title, description),
+            webPageGraph("/stories/member-story", story.title, description, {
+              datePublished: sitePublishedDate,
+              dateModified: siteModifiedDate,
+            }),
             breadcrumbGraph(crumbs),
+            videoObjectGraph({
+              name: "Green Arc Commune Member Testimonial",
+              description:
+                "A member shares their experience learning with Green Arc Commune and Shubham Soni in this original video testimonial.",
+              thumbnailUrl: story.poster,
+              ...(story.src ? { contentUrl: story.src } : {}),
+            }),
           ],
         }}
       />

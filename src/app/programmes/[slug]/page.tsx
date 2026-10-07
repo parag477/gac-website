@@ -16,6 +16,8 @@ import {
   organisationGraph,
   breadcrumbGraph,
   webPageGraph,
+  sitePublishedDate,
+  siteModifiedDate,
 } from "@/lib/seo";
 import { StructuredData } from "@/components/structured-data";
 import { Breadcrumbs } from "@/components/breadcrumbs";
@@ -58,7 +60,10 @@ export default async function ProgrammePage({
           "@graph": [
             ...organisationGraph()["@graph"],
             {
-              ...webPageGraph(`/programmes/${p.slug}`, p.title, p.description),
+              ...webPageGraph(`/programmes/${p.slug}`, p.title, p.description, {
+                datePublished: sitePublishedDate,
+                dateModified: siteModifiedDate,
+              }),
               mainEntity: {
                 "@id": `${site.url}/programmes/${p.slug}#curriculum`,
               },

@@ -19,13 +19,32 @@ import {
   homeDescription,
   pageMetadata,
   organisationGraph,
+  faqPageGraph,
+  sitePublishedDate,
+  siteModifiedDate,
 } from "@/lib/seo";
 import { StructuredData } from "@/components/structured-data";
 export const metadata = pageMetadata(homeTitle, homeDescription, "/");
 export default function Home() {
   return (
     <main id="main">
-      <StructuredData data={organisationGraph()} />
+      <StructuredData
+        data={{
+          ...organisationGraph(),
+          "@graph": [
+            ...organisationGraph()["@graph"],
+            {
+              "@type": "WebPage",
+              "@id": `${organisationGraph()["@graph"][2].url}`,
+              name: homeTitle,
+              description: homeDescription,
+              datePublished: sitePublishedDate,
+              dateModified: siteModifiedDate,
+            },
+            faqPageGraph(faqs),
+          ],
+        }}
+      />
       <ParallaxHero />
       <div className="belief-strip">
         <span>Wealth in knowledge.</span>

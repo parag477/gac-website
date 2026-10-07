@@ -120,8 +120,11 @@ export function Footer({
       </div>
       <nav className="footer-resources" aria-label="Explore Green Arc Commune">
         <Link href="/programmes">Compare programmes</Link>
+        <Link href="/programmes/strategy-master">Strategy Master</Link>
         <Link href="/about/shubham-soni">About Shubham Soni</Link>
         <Link href="/stories/member-story">Member video</Link>
+        <Link href="/#faq">FAQs</Link>
+        <Link href="/#contact">Contact us</Link>
         <a href={site.youtube} target="_blank" rel="noopener noreferrer">
           YouTube <ArrowUpRight size={16} />
         </a>

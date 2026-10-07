@@ -7,6 +7,11 @@ export const homeTitle = "Gold Trading Education & Mentorship";
 export const homeDescription =
   "Learn about gold/XAUUSD with Shubham Soni. Explore live mentorship, individual guidance and the Strategy Master Program at Green Arc Commune.";
 
+// Content publication date for freshness signals.
+// Update when substantive page content changes.
+export const sitePublishedDate = "2026-10-07";
+export const siteModifiedDate = "2026-10-07";
+
 export function pageMetadata(
   title: string,
   description: string,
@@ -60,7 +65,12 @@ export function breadcrumbGraph(items: { name: string; path: string }[]) {
   };
 }
 
-export function webPageGraph(path: string, name: string, description: string) {
+export function webPageGraph(
+  path: string,
+  name: string,
+  description: string,
+  dates?: { datePublished?: string; dateModified?: string },
+) {
   return {
     "@type": "WebPage",
     "@id": new URL(path, site.url).href,
@@ -70,6 +80,47 @@ export function webPageGraph(path: string, name: string, description: string) {
     inLanguage: "en-IN",
     isPartOf: { "@id": websiteId },
     publisher: { "@id": organisationId },
+    ...(dates?.datePublished ? { datePublished: dates.datePublished } : {}),
+    ...(dates?.dateModified ? { dateModified: dates.dateModified } : {}),
+  };
+}
+
+/** FAQPage structured data — +40% GEO visibility per Princeton research. */
+export function faqPageGraph(
+  faqs: { question: string; answer: string }[],
+) {
+  return {
+    "@type": "FAQPage",
+    mainEntity: faqs.map((faq) => ({
+      "@type": "Question",
+      name: faq.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: faq.answer,
+      },
+    })),
+  };
+}
+
+/** VideoObject structured data for video search discovery. */
+export function videoObjectGraph(opts: {
+  name: string;
+  description: string;
+  thumbnailUrl: string;
+  contentUrl?: string;
+  uploadDate?: string;
+  duration?: string;
+}) {
+  return {
+    "@type": "VideoObject",
+    name: opts.name,
+    description: opts.description,
+    thumbnailUrl: new URL(opts.thumbnailUrl, site.url).href,
+    ...(opts.contentUrl
+      ? { contentUrl: new URL(opts.contentUrl, site.url).href }
+      : {}),
+    ...(opts.uploadDate ? { uploadDate: opts.uploadDate } : {}),
+    ...(opts.duration ? { duration: opts.duration } : {}),
   };
 }
 
@@ -91,6 +142,7 @@ export function organisationGraph() {
           url: `${site.url}/images/green-arc-logo.png`,
         },
         founder: { "@id": founderId },
+        foundingDate: "2019",
         sameAs: [site.instagram, site.whatsapp, site.youtube].filter(Boolean),
       },
       {
@@ -103,6 +155,13 @@ export function organisationGraph() {
         description:
           "Founder of Green Arc Commune with 7+ years of trading experience and expertise in gold trading.",
         worksFor: { "@id": organisationId },
+        knowsAbout: [
+          "Gold Trading",
+          "XAUUSD",
+          "Trading Education",
+          "Risk Management",
+          "Market Analysis",
+        ],
       },
       {
         "@type": "WebSite",

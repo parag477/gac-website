@@ -61,8 +61,17 @@ for (const url of urls) {
 const robots = await page("/robots.txt");
 assert.equal(robots.response.status, 200);
 assert.ok(robots.response.headers.get("content-type")?.includes("text/plain"));
-assert.equal(/^Disallow: \/$/m.test(robots.text), !expectIndexable, "robots crawl policy");
-if (expectIndexable) assert.ok(robots.text.includes(`Sitemap: ${origin}/sitemap.xml`));
+if (expectIndexable) {
+  // Production: wildcard should allow crawling, AI search bots allowed, training bots blocked.
+  assert.ok(/^User-Agent: \*$/m.test(robots.text), "robots: wildcard user-agent");
+  assert.ok(/^Allow: \/$/m.test(robots.text), "robots: allow public crawling");
+  assert.ok(robots.text.includes("OAI-SearchBot"), "robots: AI search bot rules");
+  assert.ok(robots.text.includes("GPTBot"), "robots: training bot rules");
+  assert.ok(robots.text.includes(`Sitemap: ${origin}/sitemap.xml`), "robots: sitemap");
+} else {
+  // Preview: blanket disallow.
+  assert.ok(/^Disallow: \/$/m.test(robots.text), "robots: preview disallow");
+}
 for (const path of ["/llms.txt", "/llms-full.txt"]) {
   const { response, text } = await page(path);
   assert.equal(response.status, 200);
@@ -76,21 +85,21 @@ for (const path of ["/llms.txt", "/llms-full.txt"]) {
   }
 }
 for (const [slug, code, location] of [
-  ["mastery",308,"/programmes/strategy-master"],
-  ["live-room",308,"/?programme=live-mentorship#contact"],
-  ["individual",308,"/?programme=individual-mentorship#contact"],
-  ["live-mentorship",307,"/?programme=live-mentorship#contact"],
-  ["individual-mentorship",307,"/?programme=individual-mentorship#contact"],
-  ["algo-core",307,"/#programmes"],
+  ["mastery", 308, "/programmes/strategy-master"],
+  ["live-room", 308, "/?programme=live-mentorship#contact"],
+  ["individual", 308, "/?programme=individual-mentorship#contact"],
+  ["live-mentorship", 307, "/?programme=live-mentorship#contact"],
+  ["individual-mentorship", 307, "/?programme=individual-mentorship#contact"],
+  ["algo-core", 307, "/#programmes"],
 ]) {
-  const r = await fetch(new URL(`/programmes/${slug}`, base), {redirect:"manual"});
+  const r = await fetch(new URL(`/programmes/${slug}`, base), { redirect: "manual" });
   assert.equal(r.status, code, slug);
   assert.equal(r.headers.get("location"), location, slug);
 }
-assert.equal((await page("/seo-check-missing-page")).response.status,404);
+assert.equal((await page("/seo-check-missing-page")).response.status, 404);
 const api = (await page("/api/enquiries")).response;
-assert.equal(api.status,405);
-assert.equal(api.headers.get("x-robots-tag"),"noindex, nofollow");
+assert.equal(api.status, 405);
+assert.equal(api.headers.get("x-robots-tag"), "noindex, nofollow");
 const admin = (await page("/admin")).response;
-assert.equal(admin.headers.get("x-robots-tag"),"noindex, nofollow");
+assert.equal(admin.headers.get("x-robots-tag"), "noindex, nofollow");
 console.log(`PASS ${urls.length} public pages; crawler files, AI links, six redirects, 404, and private route headers`);
